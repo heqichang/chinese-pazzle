@@ -1,0 +1,85 @@
+.grid-container {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 12px;
+}
+
+.grid {
+  display: grid;
+  gap: 2px;
+  background: #333;
+  padding: 2px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.cell {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  background: white;
+}
+
+.cell.black {
+  background: #333;
+  cursor: default;
+}
+
+.cell:not(.black):hover {
+  background: #e3f2fd;
+}
+
+.cell.highlighted:not(.black) {
+  background: #e8eaf6;
+}
+
+.cell.selected:not(.black) {
+  background: #c5cae9;
+  box-shadow: inset 0 0 0 2px #667eea;
+}
+
+.cell.filled:not(.black) {
+  background: #e8f5e9;
+}
+
+.cell.selected.filled:not(.black) {
+  background: #c8e6c9;
+}
+
+.clue-number {
+  position: absolute;
+  top: 2px;
+  left: 4px;
+  font-size: 10px;
+  color: #666;
+  font-weight: 500;
+}
+
+.char {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+  z-index: 1;
+}
+
+@media (max-width: 600px) {
+  .cell {
+    width: 36px;
+    height: 36px;
+  }
+
+  .char {
+    font-size: 18px;
+  }
+
+  .clue-number {
+    font-size: 8px;
+  }
+}

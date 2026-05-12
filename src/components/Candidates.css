@@ -1,0 +1,131 @@
+.candidates-container {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.candidates-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.candidates-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.btn-clear {
+  background: #ff6b6b;
+  color: white;
+  padding: 6px 16px;
+  font-size: 12px;
+}
+
+.btn-clear:hover {
+  background: #ff5252;
+}
+
+.pinyin-filter {
+  margin-bottom: 16px;
+}
+
+.filter-label {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.initials-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.initial-btn {
+  width: 32px;
+  height: 32px;
+  border: 2px solid #ddd;
+  background: white;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.initial-btn:hover {
+  border-color: #667eea;
+  color: #667eea;
+}
+
+.initial-btn.active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-color: transparent;
+  color: white;
+}
+
+.chars-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.char-btn {
+  width: 44px;
+  height: 44px;
+  border: 2px solid #ddd;
+  background: white;
+  border-radius: 8px;
+  font-size: 22px;
+  font-weight: 500;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.char-btn:hover:not(:disabled) {
+  border-color: #667eea;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.char-btn.used {
+  background: #e0e0e0;
+  color: #aaa;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.no-results {
+  text-align: center;
+  color: #999;
+  padding: 20px;
+  font-size: 14px;
+}
+
+.clear-filter-btn {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  border: 2px dashed #ccc;
+  background: white;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.clear-filter-btn:hover {
+  border-color: #667eea;
+  color: #667eea;
+}
