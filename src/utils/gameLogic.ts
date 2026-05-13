@@ -15,7 +15,7 @@ export function createGameState(puzzle: Puzzle): GameState {
     userGrid,
     selectedCell: null,
     selectedDirection: 'horizontal',
-    usedChars: [],
+    filledCells: new Set<string>(),
     completed: false,
   };
 }
@@ -127,19 +127,10 @@ export function fillCell(
   if (cell.isBlack) return state;
 
   const newUserGrid = state.userGrid.map((r) => [...r]);
-  const prevChar = newUserGrid[row][col];
   newUserGrid[row][col] = char;
 
-  const newUsedChars = [...state.usedChars];
-  
-  if (prevChar) {
-    const index = newUsedChars.indexOf(prevChar);
-    if (index !== -1) {
-      newUsedChars.splice(index, 1);
-    }
-  }
-  
-  newUsedChars.push(char);
+  const newFilledCells = new Set(state.filledCells);
+  newFilledCells.add(`${row}-${col}`);
 
   const selectedCell = findNextEmptyCell(
     state.puzzle,
@@ -151,7 +142,7 @@ export function fillCell(
   return {
     ...state,
     userGrid: newUserGrid,
-    usedChars: newUsedChars,
+    filledCells: newFilledCells,
     selectedCell,
   };
 }
@@ -213,22 +204,15 @@ export function clearCell(state: GameState): GameState {
   if (cell.isBlack) return state;
 
   const newUserGrid = state.userGrid.map((r) => [...r]);
-  const prevChar = newUserGrid[row][col];
   newUserGrid[row][col] = null;
 
-  let newUsedChars = [...state.usedChars];
-  
-  if (prevChar) {
-    const index = newUsedChars.indexOf(prevChar);
-    if (index !== -1) {
-      newUsedChars.splice(index, 1);
-    }
-  }
+  const newFilledCells = new Set(state.filledCells);
+  newFilledCells.delete(`${row}-${col}`);
 
   return {
     ...state,
     userGrid: newUserGrid,
-    usedChars: newUsedChars,
+    filledCells: newFilledCells,
   };
 }
 

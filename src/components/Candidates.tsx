@@ -4,7 +4,6 @@ import './Candidates.css';
 
 interface CandidatesProps {
   candidates: string[];
-  usedChars: string[];
   onCharSelect: (char: string) => void;
   onClear: () => void;
 }
@@ -22,7 +21,6 @@ function getPinyinInitial(char: string): string {
 
 function Candidates({
   candidates,
-  usedChars,
   onCharSelect,
   onClear,
 }: CandidatesProps) {
@@ -40,10 +38,6 @@ function Candidates({
 
   const handleInitialClick = (initial: string) => {
     setSelectedInitial(selectedInitial === initial ? null : initial);
-  };
-
-  const isCharUsed = (char: string): boolean => {
-    return usedChars.includes(char);
   };
 
   return (
@@ -79,11 +73,8 @@ function Candidates({
           filteredCandidates.map((char, index) => (
             <button
               key={`${char}-${index}`}
-              className={`char-btn ${
-                isCharUsed(char) ? 'used' : ''
-              }`}
+              className="char-btn"
               onClick={() => onCharSelect(char)}
-              disabled={isCharUsed(char)}
             >
               {char}
             </button>

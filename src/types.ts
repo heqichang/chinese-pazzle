@@ -31,6 +31,6 @@ export interface GameState {
   userGrid: (string | null)[][];
   selectedCell: Position | null;
   selectedDirection: 'horizontal' | 'vertical';
-  usedChars: string[];
+  filledCells: Set<string>;
   completed: boolean;
 }

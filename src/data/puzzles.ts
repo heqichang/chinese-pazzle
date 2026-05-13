@@ -1,6 +1,53 @@
 import { Puzzle, WordEntry } from '../types';
 
+function validateCrossword(words: WordEntry[], gridSize: number): boolean {
+  const grid: (string | null)[][] = [];
+  
+  for (let row = 0; row < gridSize; row++) {
+    grid[row] = [];
+    for (let col = 0; col < gridSize; col++) {
+      grid[row][col] = null;
+    }
+  }
+
+  for (const word of words) {
+    for (let i = 0; i < word.text.length; i++) {
+      let row = word.start.row;
+      let col = word.start.col;
+      
+      if (word.direction === 'horizontal') {
+        col += i;
+      } else {
+        row += i;
+      }
+
+      if (row < 0 || row >= gridSize || col < 0 || col >= gridSize) {
+        console.error(`Word "${word.text}" out of bounds at (${row},${col})`);
+        return false;
+      }
+
+      const currentChar = grid[row][col];
+      const newChar = word.text[i];
+
+      if (currentChar !== null && currentChar !== newChar) {
+        console.error(
+          `Conflict at (${row},${col}): existing="${currentChar}", new="${newChar}" for word "${word.text}"`
+        );
+        return false;
+      }
+
+      grid[row][col] = newChar;
+    }
+  }
+
+  return true;
+}
+
 function createGridFromWords(words: WordEntry[], gridSize: number): Puzzle['grid'] {
+  if (!validateCrossword(words, gridSize)) {
+    throw new Error('Invalid crossword layout');
+  }
+
   const grid: Puzzle['grid'] = [];
   
   for (let row = 0; row < gridSize; row++) {
@@ -65,17 +112,10 @@ const puzzle1Words: WordEntry[] = [
   },
   {
     id: 'v1',
-    text: '一马当先',
-    clue: '形容领先或带头',
+    text: '一言九鼎',
+    clue: '形容说话极有分量',
     start: { row: 0, col: 0 },
     direction: 'vertical',
-  },
-  {
-    id: 'h2',
-    text: '心想事成',
-    clue: '心中所想的都能实现',
-    start: { row: 3, col: 0 },
-    direction: 'horizontal',
   },
   {
     id: 'v2',
@@ -85,18 +125,11 @@ const puzzle1Words: WordEntry[] = [
     direction: 'vertical',
   },
   {
-    id: 'h3',
-    text: '成千上万',
-    clue: '形容数量很多',
-    start: { row: 6, col: 3 },
+    id: 'h2',
+    text: '风调雨顺',
+    clue: '形容风雨适合农时，也比喻局势良好',
+    start: { row: 2, col: 3 },
     direction: 'horizontal',
-  },
-  {
-    id: 'v3',
-    text: '成人之美',
-    clue: '成全他人的好事',
-    start: { row: 3, col: 6 },
-    direction: 'vertical',
   },
 ];
 
@@ -105,43 +138,29 @@ const puzzle2Words: WordEntry[] = [
     id: 'h1',
     text: '百花齐放',
     clue: '比喻艺术界繁荣景象',
-    start: { row: 0, col: 1 },
+    start: { row: 0, col: 0 },
     direction: 'horizontal',
   },
   {
     id: 'v1',
     text: '百折不挠',
     clue: '形容意志坚强',
+    start: { row: 0, col: 0 },
+    direction: 'vertical',
+  },
+  {
+    id: 'v2',
+    text: '花好月圆',
+    clue: '比喻美好圆满',
     start: { row: 0, col: 1 },
     direction: 'vertical',
   },
   {
     id: 'h2',
-    text: '花好月圆',
-    clue: '比喻美好圆满',
-    start: { row: 2, col: 2 },
+    text: '好逸恶劳',
+    clue: '喜欢安逸，厌恶劳动',
+    start: { row: 1, col: 1 },
     direction: 'horizontal',
-  },
-  {
-    id: 'v2',
-    text: '齐心协力',
-    clue: '形容思想一致，共同努力',
-    start: { row: 1, col: 5 },
-    direction: 'vertical',
-  },
-  {
-    id: 'h3',
-    text: '万事如意',
-    clue: '一切事情都符合心意',
-    start: { row: 6, col: 2 },
-    direction: 'horizontal',
-  },
-  {
-    id: 'v3',
-    text: '圆满成功',
-    clue: '指事情完满成功',
-    start: { row: 2, col: 4 },
-    direction: 'vertical',
   },
 ];
 
@@ -161,32 +180,18 @@ const puzzle3Words: WordEntry[] = [
     direction: 'vertical',
   },
   {
-    id: 'h2',
-    text: '废寝忘食',
-    clue: '形容专心努力',
-    start: { row: 3, col: 2 },
-    direction: 'horizontal',
-  },
-  {
     id: 'v2',
     text: '五光十色',
     clue: '形容色彩鲜艳',
-    start: { row: 0, col: 3 },
+    start: { row: 0, col: 2 },
     direction: 'vertical',
   },
   {
-    id: 'h3',
-    text: '十年寒窗',
-    clue: '形容长期刻苦读书',
-    start: { row: 5, col: 3 },
+    id: 'h2',
+    text: '光彩夺目',
+    clue: '形容鲜艳耀眼',
+    start: { row: 1, col: 2 },
     direction: 'horizontal',
-  },
-  {
-    id: 'v3',
-    text: '食古不化',
-    clue: '比喻拘泥于旧法',
-    start: { row: 3, col: 5 },
-    direction: 'vertical',
   },
 ];
 
@@ -195,43 +200,29 @@ const puzzle4Words: WordEntry[] = [
     id: 'h1',
     text: '龙飞凤舞',
     clue: '形容书法气势奔放',
-    start: { row: 0, col: 1 },
+    start: { row: 0, col: 0 },
     direction: 'horizontal',
   },
   {
     id: 'v1',
     text: '龙马精神',
     clue: '比喻精神旺盛',
-    start: { row: 0, col: 1 },
+    start: { row: 0, col: 0 },
+    direction: 'vertical',
+  },
+  {
+    id: 'v2',
+    text: '凤毛麟角',
+    clue: '比喻稀少可贵',
+    start: { row: 0, col: 2 },
     direction: 'vertical',
   },
   {
     id: 'h2',
-    text: '凤毛麟角',
-    clue: '比喻稀少可贵',
-    start: { row: 2, col: 3 },
+    text: '毛骨悚然',
+    clue: '形容恐惧惊骇的样子',
+    start: { row: 1, col: 2 },
     direction: 'horizontal',
-  },
-  {
-    id: 'v2',
-    text: '舞文弄墨',
-    clue: '指玩弄文字技巧',
-    start: { row: 0, col: 4 },
-    direction: 'vertical',
-  },
-  {
-    id: 'h3',
-    text: '精益求精',
-    clue: '已经很好了，还求更好',
-    start: { row: 5, col: 2 },
-    direction: 'horizontal',
-  },
-  {
-    id: 'v3',
-    text: '角立杰出',
-    clue: '形容出类拔萃',
-    start: { row: 2, col: 6 },
-    direction: 'vertical',
   },
 ];
 
@@ -251,13 +242,6 @@ const puzzle5Words: WordEntry[] = [
     direction: 'vertical',
   },
   {
-    id: 'h2',
-    text: '风和日丽',
-    clue: '形容天气晴朗暖和',
-    start: { row: 3, col: 2 },
-    direction: 'horizontal',
-  },
-  {
     id: 'v2',
     text: '雨过天晴',
     clue: '比喻政治上由黑暗到光明',
@@ -265,55 +249,48 @@ const puzzle5Words: WordEntry[] = [
     direction: 'vertical',
   },
   {
-    id: 'h3',
-    text: '天高地厚',
-    clue: '比喻恩情深厚',
-    start: { row: 6, col: 3 },
+    id: 'h2',
+    text: '天长地久',
+    clue: '形容时间悠久或爱情永恒',
+    start: { row: 2, col: 3 },
     direction: 'horizontal',
-  },
-  {
-    id: 'v3',
-    text: '丽质天成',
-    clue: '形容天生丽质',
-    start: { row: 3, col: 5 },
-    direction: 'vertical',
   },
 ];
 
 export const puzzles: Puzzle[] = [
   {
     id: 'puzzle1',
-    name: '心意与成功',
-    gridSize: 9,
+    name: '心意与意志',
+    gridSize: 7,
     words: puzzle1Words,
-    grid: createGridFromWords(puzzle1Words, 9),
+    grid: createGridFromWords(puzzle1Words, 7),
   },
   {
     id: 'puzzle2',
-    name: '花开与圆满',
-    gridSize: 9,
+    name: '百花与圆满',
+    gridSize: 7,
     words: puzzle2Words,
-    grid: createGridFromWords(puzzle2Words, 9),
+    grid: createGridFromWords(puzzle2Words, 7),
   },
   {
     id: 'puzzle3',
     name: '学习与努力',
-    gridSize: 9,
+    gridSize: 7,
     words: puzzle3Words,
-    grid: createGridFromWords(puzzle3Words, 9),
+    grid: createGridFromWords(puzzle3Words, 7),
   },
   {
     id: 'puzzle4',
     name: '龙凤与杰出',
-    gridSize: 9,
+    gridSize: 7,
     words: puzzle4Words,
-    grid: createGridFromWords(puzzle4Words, 9),
+    grid: createGridFromWords(puzzle4Words, 7),
   },
   {
     id: 'puzzle5',
-    name: '春天与天气',
-    gridSize: 9,
+    name: '春风与美好',
+    gridSize: 7,
     words: puzzle5Words,
-    grid: createGridFromWords(puzzle5Words, 9),
+    grid: createGridFromWords(puzzle5Words, 7),
   },
 ];

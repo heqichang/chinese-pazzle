@@ -102,7 +102,6 @@ function App() {
 
           <Candidates
             candidates={getCandidateChars(gameState)}
-            usedChars={gameState.usedChars}
             onCharSelect={handleCharSelect}
             onClear={handleClear}
           />
