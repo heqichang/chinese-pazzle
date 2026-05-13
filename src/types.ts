@@ -1,3 +1,5 @@
+export type EntryType = 'idiom' | 'proverb' | 'poetry' | 'allusion';
+
 export interface Position {
   row: number;
   col: number;
@@ -9,6 +11,7 @@ export interface WordEntry {
   clue: string;
   start: Position;
   direction: 'horizontal' | 'vertical';
+  type?: EntryType;
 }
 
 export interface Cell {
@@ -33,4 +36,10 @@ export interface GameState {
   selectedDirection: 'horizontal' | 'vertical';
   filledCells: Set<string>;
   completed: boolean;
+}
+
+export interface LLMConfig {
+  apiKey: string;
+  baseUrl: string;
+  modelName: string;
 }

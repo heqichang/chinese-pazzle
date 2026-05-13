@@ -1,6 +1,6 @@
 import { Puzzle, WordEntry } from '../types';
 
-function validateCrossword(words: WordEntry[], gridSize: number): boolean {
+export function validateCrossword(words: WordEntry[], gridSize: number): boolean {
   const grid: (string | null)[][] = [];
   
   for (let row = 0; row < gridSize; row++) {
@@ -43,7 +43,7 @@ function validateCrossword(words: WordEntry[], gridSize: number): boolean {
   return true;
 }
 
-function createGridFromWords(words: WordEntry[], gridSize: number): Puzzle['grid'] {
+export function createGridFromWords(words: WordEntry[], gridSize: number): Puzzle['grid'] {
   if (!validateCrossword(words, gridSize)) {
     throw new Error('Invalid crossword layout');
   }
